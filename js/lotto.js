@@ -1,4 +1,8 @@
-function setupLabel() {
+$(document).ready(function(){
+
+    
+    
+    function setupLabel() {
 		if ($('.label_check input').length) {
 			$('.label_check').each(function(){
 				$(this).removeClass('c_on');
@@ -6,7 +10,7 @@ function setupLabel() {
 			$('.label_check input:checked').each(function(){
 				$(this).parent('label').addClass('c_on');
 			});
-		}
+		};
 		if ($('.label_radio input').length) {
 			$('.label_radio').each(function(){
 				$(this).removeClass('r_on');
@@ -14,8 +18,12 @@ function setupLabel() {
 			$('.label_radio input:checked').each(function(){
 				$(this).parent('label').addClass('r_on');
 			});
-		}
-	
+		};
+	};
+    
+    
+    
+
 	$(".toggle_container").hide();
 
 	$("p.trigger").click(function(e){
@@ -35,7 +43,7 @@ function setupLabel() {
 		select.find('.trigger').html(this.innerHTML);
 		select.find('.toggle_container').hide('fast');
 		if (this.dataset) {
-			select.find('input').val(this.dataset.id);
+			select.find('input').val(this.dataset['id']);
 		}
 		else {
 			select.find('input').val($(this).attr('data-id'));
@@ -53,7 +61,7 @@ function setupLabel() {
 	 */
 	if ($('section.numberpicker').length > 0) {
 		// Variable declaration
-		var games = [], number_list = [], current_selection = [];
+		var games = new Array(), number_list = new Array(), current_selection = new Array();
 		var last_number_of_games;
 
 		// Create the number panels required
@@ -185,7 +193,7 @@ function setupLabel() {
 			$('#number_picker_overlay').width($('.number_pickers').width());
 			$('#number_picker_overlay').height($('.number_pickers').height());
 			$('#overlay_game_number').html(game_number);
-			setTimeout('$("#number_picker_overlay").hide();', 600);
+			setTimeout('$("#number_picker_overlay").hide();', 600)
 		}
 
 		/**
@@ -195,7 +203,8 @@ function setupLabel() {
 		 *
 		 * @return boolean all picked
 		 */
-		function check_current_games() {
+		  
+        function check_current_games() {
 			var errs = new Array();
 			for (var i in panels) {
 				if (typeof current_selection[i] == 'undefined') {
@@ -218,7 +227,7 @@ function setupLabel() {
 		 */
 		$('#boxed,#standard').click(function(e) {
 			var standard = this.id == 'standard';
-			new_number_of_games = last_number_of_games ? last_number_of_games : (standard ? 4 : 1);
+			new_number_of_games = last_number_of_games ? last_number_of_games : (standard ? 1 : 1);
 			last_number_of_games = $('#new_count').val();
 			$('#new_count').find('option').remove();
 			var num_games_to_add = 1;
@@ -236,6 +245,11 @@ function setupLabel() {
 			count.find('option' . standard ? '' : ':not(:selected)').css('display', standard ? '' : 'none');
 		});
 
+      
+		
+
+ 
+        
 		/**
 		 * Per game quickpick
 		 */
@@ -255,8 +269,16 @@ function setupLabel() {
 			e.preventDefault();
 			for (var i in panels) {
 				clear_selections(i);
+                document.getElementById('myText').innerHTML = "Make Your Picks Above"
 			}
 			current_selection = new Array();
+             $("#barcode").JsBarcode("",{width:0,height:0}); 
+              document.getElementById('myText').value = "";
+            document.getElementById('barcode').value = "";
+            document.getElementById('fname').value = "";
+            document.getElementById('lname').value = "";        	
+           
+
 		});
 
 		/**
@@ -307,14 +329,38 @@ function setupLabel() {
 		 */
 		$('button.next').click(function(e) {
 			e.preventDefault();
-
 			// find the current game and check it
 			var current_game = parseInt($('.games .current').html(), 10);
-			if (!check_current_games()) return;
+            
+            document.getElementById('myText').innerHTML = current_selection;
+            
+        //    $("#barcode").JsBarcode("30,22,35,32,17,2",{width:5,height:50});
+        //    
+       
+     
+
+           var data = current_selection;
+
+            var insert_data_in_form =  function(data) {
+            var form = $("#dataform input[type='text']");
+            var form_arr = new Array();
+
+            form.each(function(i,elem) {
+            console.log(data.length,data[i]);
+            $(this).val(data[i]);
+                });
+            };
+
+            insert_data_in_form(data);
+
+            
+            if (!check_current_games()) return;
 
 			// get the total number of games
 			var total_game_parts = $('.games .total').html().split(' ');
-			var total_games = parseInt(total_game_parts[0], 10);
+			var total_games = 1;
+
+            //var total_games = parseInt(total_game_parts[0], 10);
 
 			// show a loading overlay, if this is not the last game
 			if (current_game != total_games) {
@@ -341,8 +387,14 @@ function setupLabel() {
 
 			// Clear the panel
 			$('button.reset').click();
+             document.getElementById('myText').value = "";
+            document.getElementById('barcode').value = "";
+            document.getElementById('fname').value = "";
+            document.getElementById('lname').value = "";        	
 
-			// Load the existing game if available
+            
+            
+            // Load the existing game if available
 			if (games[current_game]) {
 				current_selection = games[current_game];
 				for (var i in panels) {
