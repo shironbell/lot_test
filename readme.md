@@ -1,63 +1,44 @@
-# [HTML5 Boilerplate](http://html5boilerplate.com)
+# TestDrive-HTML5
+The TestDrive sample application provides you with a near blank template to get started with. It is great for learning and trying Kinvey, or to build your first application upon.
 
-HTML5 Boilerplate is a professional front-end template for building fast,
-robust, and adaptable web apps or sites.
+## Run It
+After downloading or cloning the repository:
 
-This project is the product of many years of iterative development and combined
-community knowledge. It does not impose a specific development philosophy or
-framework, so you're free to architect your code in the way that you want.
+* Replace `App Key` and `App Secret` (`index.html`) with your applications credentials.
+* Start a web server:
+```bash
+python -m SimpleHTTPServer 8000
+```
+* Point your browser to `http://localhost:8000/index.html`. Adjust the hostname and port number if necessary.
 
-* Source: [https://github.com/h5bp/html5-boilerplate](https://github.com/h5bp/html5-boilerplate)
-* Homepage: [http://html5boilerplate.com](http://html5boilerplate.com)
-* Twitter: [@h5bp](http://twitter.com/h5bp)
+## Functionality
+This application demonstrates:
 
+* Basic set-up for HTML5 web apps using Kinvey
+* Pinging the service
 
-## Quick start
+## Architecture
+The starting point of this application is `index.html`. Here, you will find placeholders and hints on where to put your application content, styles, and scripts. Code to connect your app with Kinvey is already inserted.
 
-Choose one of the following options:
+By default, the sample app includes a button to ping the Kinvey service. If you want to get rid of this functionality, simply remove `scripts/ping.js`, and delete the button HTML tag from `index.html`. 
 
-1. Download the latest stable release from
-   [html5boilerplate.com](http://html5boilerplate.com/) or a custom build from
-   [Initializr](http://www.initializr.com).
-2. Clone the git repo — `git clone
-   https://github.com/h5bp/html5-boilerplate.git` - and checkout the tagged
-   release you'd like to use.
+Depending on whether you are building for desktop or mobile (or both), the following two repositories might be of help:
 
+* [HTML5 boilerplate](https://github.com/h5bp/html5-boilerplate)
+* [Mobile boilerplate](https://github.com/h5bp/mobile-boilerplate)
 
-## Features
+## License
 
-* HTML5 ready. Use the new elements with confidence.
-* Cross-browser compatible (Chrome, Opera, Safari, Firefox 3.6+, IE6+).
-* Designed with progressive enhancement in mind.
-* Includes [Normalize.css](http://necolas.github.com/normalize.css/) for CSS
-  normalizations and common bug fixes.
-* The latest [jQuery](http://jquery.com/) via CDN, with a local fallback.
-* The latest [Modernizr](http://modernizr.com/) build for feature detection.
-* IE-specific classes for easier cross-browser control.
-* Placeholder CSS Media Queries.
-* Useful CSS helpers.
-* Default print CSS, performance optimized.
-* Protection against any stray `console.log` causing JavaScript errors in
-  IE6/7.
-* An optimized Google Analytics snippet.
-* Apache server caching, compression, and other configuration defaults for
-  Grade-A performance.
-* Cross-domain Ajax and Flash.
-* "Delete-key friendly." Easy to strip out parts you don't need.
-* Extensive inline and accompanying documentation.
+    Copyright 2013 Kinvey, Inc.
 
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
 
-## Documentation
+       http://www.apache.org/licenses/LICENSE-2.0
 
-Take a look at the [documentation table of
-contents](https://github.com/h5bp/html5-boilerplate/blob/master/doc/TOC.md). This
-documentation is bundled with the project, which makes it readily available for
-offline reading and provides a useful starting point for any documentation
-you want to write about your project.
-
-
-## Contributing
-
-Anyone and everyone is welcome to
-[contribute](https://github.com/h5bp/html5-boilerplate/blob/master/CONTRIBUTING.md). Hundreds
-of developers have helped make the HTML5 Boilerplate what it is today.
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
