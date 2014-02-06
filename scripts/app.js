@@ -18,11 +18,12 @@
   'use strict';
 
   // Setup.
-  
+  // ------
+
   // Initialize Kinvey.
   var promise = Kinvey.init({
-    appKey    : 'kid_VeXlW6TPHi',
-    appSecret : '896f88d7a9214df0bd174fb4600813c1',
+    appKey    : 'App Key',
+    appSecret : 'App Secret',
     sync      : { enable: true, online: navigator.onLine }
   }).then(function(activeUser) {
     // Auto-generate the active user if not defined.
@@ -32,9 +33,6 @@
   }).then(null, function(error) {
     status.trigger('error', error);
   });
-    
-     
-		
 
   // On/offline hooks.
   document.addEventListener('offline', Kinvey.Sync.offline);
@@ -66,26 +64,6 @@
       status.html(text || 'OK.').removeClass('alert-danger alert-info').addClass('alert-success');
     }
   });
-    
-	function setupLabel() {
-		if ($('.label_check input').length) {
-			$('.label_check').each(function(){
-				$(this).removeClass('c_on');
-			});
-			$('.label_check input:checked').each(function(){
-				$(this).parent('label').addClass('c_on');
-			});
-		};
-		if ($('.label_radio input').length) {
-			$('.label_radio').each(function(){
-				$(this).removeClass('r_on');
-			});
-			$('.label_radio input:checked').each(function(){
-				$(this).parent('label').addClass('r_on');
-			});
-		};
-	};
-    
 
   // Add.
   // ----
@@ -104,7 +82,7 @@
     Kinvey.DataStore.save('books', data).then(function() {
       list.trigger('update');
     }, function(error) {
-      status.trigger('error', error); 
+      status.trigger('error', error);
     }).then(function() {
       // Restore UI.
       add.trigger('reset');
@@ -180,8 +158,5 @@
       status.trigger('error', error);
     });
   });
-   
-    
-    
-}());
 
+}());
