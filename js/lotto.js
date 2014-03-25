@@ -1,8 +1,52 @@
 $(document).ready(function(){
+    
+     // Initialize Kinvey.
+  var promise = Kinvey.init({
+    appKey    : 'kid_VeXlW6TPHi',
+    appSecret : '896f88d7a9214df0bd174fb4600813c1',
+    sync      : { enable: true, online: navigator.onLine }
+  }).then(function(activeUser) {
+    // Auto-generate the active user if not defined.
+    if(null === activeUser) {
+      return Kinvey.User.create();
+    }
+  }).then(null, function(error) {
+    status.trigger('error', error);
+  });
+    
+     
+  // On/offline hooks.
+  document.addEventListener('offline', Kinvey.Sync.offline);
+  document.addEventListener('online', function() {
+    status.trigger('loading', 'Synchronizing…');
+    Kinvey.Sync.online().then(function() {
+      status.trigger('success');
+    }, function(error) {
+      status.trigger('error', error);
+    });
+  });
 
+  // Preseed data.
+  promise.then(function() {
+    list.trigger('update');
+  });
+
+  // Status.
+  var status = $('#status');
+  status.on({
+    error: function(e, data) {
+      var message = data instanceof Error ? data.message : data.description;
+      status.html(message).removeClass('alert-info alert-success').addClass('alert-danger');
+    },
+    loading: function(e, text) {
+      status.html(text || 'Loading…').removeClass('alert-danger alert-success').addClass('alert-info');
+    },
+    success: function(e, text) {
+      status.html(text || 'OK.').removeClass('alert-danger alert-info').addClass('alert-success');
+    }
+  });
     
-    
-    function setupLabel() {
+	function setupLabel() {
 		if ($('.label_check input').length) {
 			$('.label_check').each(function(){
 				$(this).removeClass('c_on');
@@ -21,8 +65,120 @@ $(document).ready(function(){
 		};
 	};
     
-    
-    
+
+  // Add.
+  // ----
+  var add = $('#add');
+  add.on('submit', function(e) {
+    var button = add.find('button').attr('disabled', 'disabled');// Update UI.
+
+    // Retrieve the form data.
+    var data = { };
+    add.serializeArray().forEach(function(input) {
+      data[input.name] = input.value;
+    });
+
+    // Add the book.
+    status.trigger('loading');
+    Kinvey.DataStore.save('books', data).then(function() {
+      list.trigger('update');
+    }, function(error) {
+      status.trigger('error', error); 
+    }).then(function() {
+      // Restore UI.
+      add.trigger('reset');
+      button.removeAttr('disabled');
+    });
+
+    e.preventDefault();// Stop submit.
+  });
+
+  // List.
+  var list = $('#list');
+  var tpl  = $('#row-template').clone();
+  list.on('update', function(e, query) {
+    status.trigger('loading');
+    Kinvey.DataStore.find('books', query).then(function(books) {
+      // Update UI.
+      var content = books.map(function(book, index) {
+        var node = tpl.clone();
+
+        // Update data.
+        node.find('[data-placeholder="index"]').text(index + 1);
+        node.find('[data-placeholder="title"]').text(book.title);
+        node.find('[data-placeholder="author"]').text(book.author);
+          node.find('[data-placeholder="lotto"]').text(book.lotto);
+        node.find('button').attr('data-book', book._id);
+
+        return node.html();
+      });
+      list.find('tbody').removeClass('hide').html(content);
+
+      status.trigger('success');
+    }, function(error) {
+      status.trigger('error', error);
+    });
+  });
+
+  // Filter.
+  var filter = $('#filter');
+  filter.on('submit', function(e) {
+    // Retrieve the form data.
+    var data = { };
+    filter.serializeArray().forEach(function(input) {
+      data[input.name] = input.value;
+    });
+
+    // Build the query.
+    var query = new Kinvey.Query().ascending(data.sort);
+    if('' !== data.search) {
+      // Offline database does not support the regex query operator. Fallback to
+      // equalTo.
+      var method = Kinvey.Sync.isOnline() ? 'matches' : 'equalTo';
+      query[method]('title',  data.search, { ignoreCase: true }).or()
+           [method]('author', data.search, { ignoreCase: true }).or()
+        [method]('lotto', data.search, { ignoreCase: true });
+    }
+    if('' !== data.limit) {
+      query.limit(data.limit);
+    }
+    list.trigger('update', query);
+
+    e.preventDefault();// Stop submit.
+  });
+
+  // Destroy.
+  list.on('click', '[data-action="shred"]', function() {
+    var button = $(this).attr('disabled', 'disabled');
+    var book   = button.data('book');
+
+    // Remove the book.
+    Kinvey.DataStore.destroy('books', book).then(function() {
+      list.trigger('update');
+    }, function(error) {
+      // Restore UI.
+      button.removeAttr('disabled');
+      status.trigger('error', error);
+    });
+  });
+	function setupLabel() {
+		if ($('.label_check input').length) {
+			$('.label_check').each(function(){
+				$(this).removeClass('c_on');
+			});
+			$('.label_check input:checked').each(function(){
+				$(this).parent('label').addClass('c_on');
+			});
+		};
+		if ($('.label_radio input').length) {
+			$('.label_radio').each(function(){
+				$(this).removeClass('r_on');
+			});
+			$('.label_radio input:checked').each(function(){
+				$(this).parent('label').addClass('r_on');
+			});
+		};
+	};
 
 	$(".toggle_container").hide();
 
@@ -203,8 +359,7 @@ $(document).ready(function(){
 		 *
 		 * @return boolean all picked
 		 */
-		  
-        function check_current_games() {
+		function check_current_games() {
 			var errs = new Array();
 			for (var i in panels) {
 				if (typeof current_selection[i] == 'undefined') {
@@ -227,7 +382,7 @@ $(document).ready(function(){
 		 */
 		$('#boxed,#standard').click(function(e) {
 			var standard = this.id == 'standard';
-			new_number_of_games = last_number_of_games ? last_number_of_games : (standard ? 1 : 1);
+			new_number_of_games = last_number_of_games ? last_number_of_games : (standard ? 4 : 1);
 			last_number_of_games = $('#new_count').val();
 			$('#new_count').find('option').remove();
 			var num_games_to_add = 1;
@@ -245,11 +400,6 @@ $(document).ready(function(){
 			count.find('option' . standard ? '' : ':not(:selected)').css('display', standard ? '' : 'none');
 		});
 
-      
-		
-
- 
-        
 		/**
 		 * Per game quickpick
 		 */
@@ -269,16 +419,8 @@ $(document).ready(function(){
 			e.preventDefault();
 			for (var i in panels) {
 				clear_selections(i);
-                document.getElementById('myText').innerHTML = "Make Your Picks Above"
 			}
 			current_selection = new Array();
-             $("#barcode").JsBarcode("",{width:0,height:0}); 
-              document.getElementById('myText').value = "";
-            document.getElementById('barcode').value = "";
-            document.getElementById('fname').value = "";
-            document.getElementById('lname').value = "";        	
-           
-
 		});
 
 		/**
@@ -324,43 +466,27 @@ $(document).ready(function(){
 			picker.show();
 		});
 
+        
+        
+        
 		/**
 		 * Per panel next button
 		 */
-		$('button.next').click(function(e) {
-			e.preventDefault();
+		
+        
+                               
+            $('button.next').click(function(e) {
+		
+            
+            e.preventDefault();
+
 			// find the current game and check it
 			var current_game = parseInt($('.games .current').html(), 10);
-            
-            document.getElementById('myText').innerHTML = current_selection;
-            
-        //    $("#barcode").JsBarcode("30,22,35,32,17,2",{width:5,height:50});
-        //    
-       
-     
-
-           var data = current_selection;
-
-            var insert_data_in_form =  function(data) {
-            var form = $("#dataform input[type='text']");
-            var form_arr = new Array();
-
-            form.each(function(i,elem) {
-            console.log(data.length,data[i]);
-            $(this).val(data[i]);
-                });
-            };
-
-            insert_data_in_form(data);
-
-            
-            if (!check_current_games()) return;
+			if (!check_current_games()) return;
 
 			// get the total number of games
 			var total_game_parts = $('.games .total').html().split(' ');
-			var total_games = 1;
-
-            //var total_games = parseInt(total_game_parts[0], 10);
+			var total_games = parseInt(total_game_parts[0], 10);
 
 			// show a loading overlay, if this is not the last game
 			if (current_game != total_games) {
@@ -369,7 +495,9 @@ $(document).ready(function(){
 
 			// Save the current game
 			games[current_game - 1] = current_selection;
-
+     
+            
+            
 			// Last game? lets submit
 			if (current_game == total_games) {
 				var form = $('form.game_picker_form');
@@ -384,17 +512,15 @@ $(document).ready(function(){
 				form.submit();
 				return;
 			}
-
-			// Clear the panel
+            
+            
+           
+             
+            
+            // Clear the panel
 			$('button.reset').click();
-             document.getElementById('myText').value = "";
-            document.getElementById('barcode').value = "";
-            document.getElementById('fname').value = "";
-            document.getElementById('lname').value = "";        	
 
-            
-            
-            // Load the existing game if available
+			// Load the existing game if available
 			if (games[current_game]) {
 				current_selection = games[current_game];
 				for (var i in panels) {
@@ -416,9 +542,14 @@ $(document).ready(function(){
 				$('section.game_options').show();
 				$('section.game_picker').hide();
 				return;
+                
+                
 			}
 
 			// show a loading overlay
+			
+           
+            
 			show_game_number_overlay(current_game-1);
 
 			// Save the current game
@@ -457,7 +588,8 @@ $(document).ready(function(){
 			form.submit();
 			return;
 		});
-
+        
+        
 		/**
 		 * Add to basket - for jackpot lotteries
 		 */
@@ -465,6 +597,9 @@ $(document).ready(function(){
 			var form = $('form.game_picker_form');
 			form.submit();
 		});
+        
+        
+
 
 		/**
 		 * Basket delete and delete all buttons

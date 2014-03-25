@@ -28,6 +28,7 @@
     // Auto-generate the active user if not defined.
     if(null === activeUser) {
       return Kinvey.User.create();
+        var user = Kinvey.getActiveUser();
     }
   }).then(null, function(error) {
     status.trigger('error', error);
@@ -115,10 +116,14 @@
   });
 
   // List.
+  // 
+  // 
+  
   var list = $('#list');
   var tpl  = $('#row-template').clone();
   list.on('update', function(e, query) {
     status.trigger('loading');
+      
     Kinvey.DataStore.find('books', query).then(function(books) {
       // Update UI.
       var content = books.map(function(book, index) {
@@ -128,6 +133,7 @@
         node.find('[data-placeholder="index"]').text(index + 1);
         node.find('[data-placeholder="title"]').text(book.title);
         node.find('[data-placeholder="author"]').text(book.author);
+          node.find('[data-placeholder="lotto"]').text(book.lotto);
         node.find('button').attr('data-book', book._id);
 
         return node.html();

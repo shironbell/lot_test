@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    <meta name="description" content="Bookshelf Sample Application" />
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="MobileOptimized" content="320" />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Bootstrap. -->
+    <link href="scripts/bootstrap.min.css" rel="stylesheet" />
+  </head>
+<body>
+    <!-- Header. -->
+	<div id="container">
+<header id="header">
+<nav>
+<ul>
+<li><a  href="index.html">Home</a></li>
+    <li class="selected"><a href="choosegame.html">Play</a></li>
+    <li><a href="mypicks.html">My Picks</a></li>
+<li><a href="results.html">Results</a></li>
+<li><a href="index.html">Account</a></li>
+
+</ul>
+</header>
+<div class="page-header">
+      
+  </div>
+</nav>
+    
+    
+</header>
+ <div align="center">  <select name="apdiv" class="changeGame" style="position: absolute; opacity: 0; font-size: 12px; height: 24px; width: 240px;">
+        <option value="">Select a different game</option>
+        <option value="pick_daily3.html">Daily 3</option>
+        <option value="pick_daily4.html">Daily 4</option>
+        <option value="pick.html">Fantasy 5</option>
+        <option value="pick.html">Daily Derby</option>
+        <option value="pick.html">SuperLotto Plus</option>
+          </select></div>
+<section class="gamescreen numberpicker game_options" style="display: none;">
+</footer>
+</section>
+<section class="gamescreen numberpicker game_picker" style="">
+<aside class="padbot">
+<div class="ballimg"></div>
+</aside>
+<h1 class="gametypes recent">&nbsp;</h1>
+<div id="number_picker_overlay" class="np_game_indicator">
+<div>Game <span id="overlay_game_number">1</span></div>
+</div>
+<div class="number_pickers">
+</div>
+   
+<div class="clear"></div>
+<footer>
+	
+<button class="reset">Reset</button>
+<button class="quickpick">Quickpick</button>
+
+<button id="ping">Save</button>
+<!-- Status. -->
+<p class="alert alert-info" id="status"><!-- Filter. -->
+  
+  <!--  <form class="form-inline well" id="filter" role="form">
+      <div class="form-group">
+        <label class="sr-only" for="search">Search</label>
+        <input class="form-control input-sm" id="search" name="search" type="search" placeholder="Search" />
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="sort">Sort</label>
+        <select class="form-control input-sm" id="sort" name="sort">
+          <option value="author">Sort by author</option>
+          <option value="title">Sort by title</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="sr-only" for="limit">Limit</label>
+        <select class="form-control input-sm" id="limit" name="limit">
+          <option value="">No limit</option>
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25">25</option>
+        </select>
+      </div>
+      <button class="btn btn-link">Show!</button>
+    </form>-->
+
+  <!-- Footer. --></p>
+<footer>
+  
+</footer>
+        </header>
+    <!-- Libraries -->
+<script src="scripts/jquery.min.2.0.3.js"></script>
+<script src="scripts/kinvey-html5-1.1.1.min.js"></script>
+
+<script src="scripts/app.js"></script>
+</body>
+</html>

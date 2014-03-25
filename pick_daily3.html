@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <style>
+iframe {height:400px;}
+
+</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<link href="css/main.css" media="screen" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/jquery-latest.js"></script>
+<script type="text/javascript" src="js/customSelect.js"></script>
+    <script src="js/kinvey-html5-1.1.4.min.js"></script>
+    <script type="text/javascript">
+
+		 
+	function addElement() {
+	var arr = document.getElementsByName('gamesdiv');
+
+	var strNumber = arr[0].options[arr[0].selectedIndex].value;
+
+for (var i=1; i<=20; i++)
+		{
+  			document.getElementById('div' + i).style.display = 'none';
+		}
+		
+	for (var i=1; i<=strNumber; i++)
+		{
+  			document.getElementById('div' + i).style.display = 'block';
+		}
+}
+
+function pageLoadEvent() {
+	
+
+for (var i=1; i<=20; i++)
+		{
+  			document.getElementById('div' + i).style.display = 'none';
+		}
+		
+	for (var i=1; i<=1; i++)
+		{
+  			document.getElementById('div' + i).style.display = 'block';
+		}
+}
+
+var lotto_state = "california"
+var lotto = "Pick 3"
+var panels = [];
+panels = [
+			[40, 3, 'Numbers']
+			
+			
+		];
+</script>
+    
+    
+<script type="text/javascript" src="js/mobile.js"></script>
+</head>
+<body onLoad="pageLoadEvent();">
+<noscript>
+</noscript>
+<body class="has-js">
+<div id="container">
+<header id="header">
+<nav>
+<ul>
+<li><a href="index.html">Home</a></li>
+    <li class="selected"><a href="#">Play</a></li>
+    <li><a href="mypicks.html">My Picks</a></li>
+<li><a href="index.html">Results</a></li>
+<li><a href="index.html">Account</a></li>
+
+</ul>
+</nav>
+</header>
+      <br>
+      <div align="center"><select name="apdiv" class="changeGame" style="position: absolute; opacity: 0; font-size: 12px; height: 24px; width: 240px;">
+        <option value="">Select a different game</option>
+        <option value="pick_daily3.html">Daily 3</option>
+        <option value="pick_daily4.html">Daily 4</option>
+        <option value="pick.html">Fantasy 5</option>
+        <option value="pick.html">Daily Derby</option>
+        <option value="pick.html">SuperLotto Plus</option>
+          </select>
+          <br/>
+           <br/>
+          <select name="gamesdiv" class="games" style="position: absolute; opacity: 0; font-size: 12px; height: 24px; width: 240px;" onChange="addElement();">
+        <option value="">How many games</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+         <option value="6">6</option>
+          <option value="7">7</option>
+           <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            
+          </select>
+          </div>
+          <div id="div1" >
+       
+<section class="gamescreen numberpicker game_picker" style="" >
+<aside class="padbot">
+</aside>
+<div class="number_pickers">
+</div>
+
+<footer>
+<button class="reset">Reset</button>
+<button class="quickpick">Quickpick</button>
+
+<button id="ping">Save</button>
+</footer>
+</section>
+
+
+</div>
+
+      <div id="div2" >
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+</div>
+
+<div id="div3">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div4">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div5">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div6">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div7">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div8">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div id="div9">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+</div>
+
+<div id="div10">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div11">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+</div>
+
+<div id="div12">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div id="div13">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div14">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div15">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div id="div16">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div17">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+</div>
+
+<div id="div18">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+</div>
+
+<div id="div19">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+<div id="div20">
+       
+<iframe src="pick_daily3_2.html" width="100%" frameborder="0" scrolling="no"></iframe>
+
+
+</div>
+
+
+
+
